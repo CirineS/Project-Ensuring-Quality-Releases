@@ -133,13 +133,10 @@ stages:
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
-      enabled: false
-
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload Package'
       artifact: drop-fakerestapi
 
-#--------------------------------------------#  
 # DEPLOYMENT STAGE
 #--------------------------------------------#    
 - stage: Deploy
@@ -147,7 +144,7 @@ stages:
   # --------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: DeployApi
-    pool: Default   
+    pool: myAP    
     environment: $(environmentName)
     strategy:
       runOnce:
@@ -157,10 +154,9 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(azureServiceConnectionId)'
-              appName: 'MyApp-AppService'
+              appName: 'project-qa-AppService'
               appType: 'webAppLinux'
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
-            enabled: false
 
 # --------------------------------------------#  
 # TEST STAGE
