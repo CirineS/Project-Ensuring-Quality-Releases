@@ -3,14 +3,18 @@ provider "azurerm" {
   subscription_id = "${var.subscription_id}"
   client_id       = "${var.client_id}"
   client_secret   = "${var.client_secret}"
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 terraform {
   backend "azurerm" {
-    storage_account_name = ""
-    container_name       = ""
-    key                  = ""
-    access_key           = ""
+    storage_account_name = "tfstate1140826432" # number of created tf storage
+    container_name       = "tfstate" 
+    key                  = "test.terraform.tfstate"
+    access_key           = "4sJPOdFcCAMtVPqjL992m3fi9navmDpWZDeXT2+J2zDVwA5PYJAV0iHBTvSS3FuttrcPpZubuAXN+AStgWEM4Q==" # access key provided by the created tf storage
   }
 }
 module "resource_group" {
@@ -51,4 +55,17 @@ module "publicip" {
   application_type = "${var.application_type}"
   resource_type    = "publicip"
   resource_group   = "${module.resource_group.resource_group_name}"
+}
+
+module "vm" {
+  source               = "../../modules/vm"
+  location             = "${var.location}"
+  resource_group       = "${module.resource_group.resource_group_name}"
+  application_type     = "${var.application_type}"
+  subnet_id            = "${module.network.subnet_id_test}"
+  vm_admin_username    = "${var.vm_admin_username}"
+  public_ip_address_id = "${module.publicip.public_ip_address_id}"
+  packer_image         = "${var.packer_image}"
+  vm_size              =  "Standard_B1s"
+  resource_type        =  "webapp"
 }
