@@ -24,7 +24,7 @@ variables:
   # terraform resource group
   tfrg: 'Azuredevops'
   # webapp name
-  application_type: 'MyApp'
+  application_type: 'MyApp-webapp'
 
 stages:
 #--------------------------------------------#  
