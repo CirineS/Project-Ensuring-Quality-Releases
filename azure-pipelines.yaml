@@ -137,6 +137,7 @@ stages:
       displayName: 'Upload Package'
       artifact: drop-fakerestapi
 
+#--------------------------------------------# 
 # DEPLOYMENT STAGE
 #--------------------------------------------#    
 - stage: Deploy
@@ -144,7 +145,7 @@ stages:
   # --------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: DeployApi
-    pool: myAP    
+    pool: Default    
     environment: $(environmentName)
     strategy:
       runOnce:
@@ -154,7 +155,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(azureServiceConnectionId)'
-              appName: 'project-qa-AppService'
+              appName: 'MyApp-AppService'
               appType: 'webAppLinux'
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
 
