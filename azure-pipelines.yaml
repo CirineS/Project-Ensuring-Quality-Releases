@@ -41,6 +41,7 @@ stages:
       displayName: 'Terraform installation'
       inputs:
         terraformVersion: '1.2.9'
+      enabled: false
 
     
     # Run Terraform Init on the pipeline agent 
@@ -56,6 +57,7 @@ stages:
         backendAzureRmStorageAccountName: '$(tfstatenumber)'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
+      enabled: false
 
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
@@ -63,6 +65,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'validate'
+      enabled: false
 
     # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it. 
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
@@ -88,7 +91,7 @@ stages:
         command: 'apply'
         workingDirectory: '$(projectRoot)/terraform/environments/test'
         environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
-
+      enabled: false
     #--------------------------------------------#    
     
     # JMeter (Performance) Test Suite - Archive
