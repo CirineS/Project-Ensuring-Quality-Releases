@@ -103,6 +103,7 @@ stages:
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
+      enabled: false
 
     # JMeter Test Suite - Publish    
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip
@@ -122,6 +123,7 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
       displayName: 'Upload Package'
       artifact: drop-uitests
+      enabled: false
 
     # FakeRestAPI - Archive
     # ToDo: Complete the ArchiveFiles@2 task and publish step 
@@ -132,6 +134,7 @@ stages:
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
+      enabled: false
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload Package'
       artifact: drop-fakerestapi
@@ -157,6 +160,7 @@ stages:
               appName: 'MyApp-AppService'
               appType: 'webAppLinux'
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+            enabled: false
 # --------------------------------------------#  
 # TEST STAGE
 # --------------------------------------------#    
@@ -176,6 +180,7 @@ stages:
           sudo n stable
           sudo npm install -g newman
         workingDirectory: $(projectRoot)
+      enabled: false
     # Postman Data Validation Test Suite    
     - task: CmdLine@2
       displayName: Run Data Validation Tests
@@ -183,6 +188,7 @@ stages:
       inputs:
         script: 'newman run TestSuite.Data-Validation.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
         workingDirectory: '$(projectRoot)/automatedtesting/postman'
+      enabled: false
     # Postman Regression Test Suite    
     - task: CmdLine@2
       displayName: Run Regression Tests
@@ -190,6 +196,7 @@ stages:
       inputs:
         script: 'newman run TestSuite.Regression.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-Regression.xml'
         workingDirectory: '$(projectRoot)/automatedtesting/postman'
+      enabled: false
     # Postman - Publish Results 
     - task: PublishTestResults@2
       inputs:
@@ -198,6 +205,7 @@ stages:
         searchFolder: 'automatedtesting/postman'
         mergeTestResults: true
         testRunTitle: 'Publish test results'
+      enabled: false
   
     #--------------------------------------------#   
     # Jmeter - Performance Test Suite     
@@ -232,6 +240,7 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/stress-test-html-report-$(Build.BuildId).zip'
         verbose: true
+      enabled: false
     - task: ArchiveFiles@2
       displayName: Save JMeter Endurance Test Report to Artifact
       inputs:
@@ -240,11 +249,13 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter/endurance-test-html-report-$(Build.BuildId).zip'
         verbose: true
+      enabled: false
     - task: PublishPipelineArtifact@1
       displayName: Publish JMeter Logs
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
         artifactName: 'drop-jmeter-logs'
+      enabled: false
 
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
@@ -296,10 +307,11 @@ stages:
                 mkdir -p log/selenium
             
                 sudo cp /var/log/selenium/selenium-test.log log/selenium/selenium-test.log
+            enabled: false
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium-test.log'
               artifactName: 'drop-selenium-logs'
-        
+            enabled: false        
           
