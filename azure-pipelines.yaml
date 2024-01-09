@@ -160,6 +160,7 @@ stages:
               appName: 'MyApp-AppService'
               appType: 'webAppLinux'
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+            enabled: false
 
 # --------------------------------------------#  
 # TEST STAGE
