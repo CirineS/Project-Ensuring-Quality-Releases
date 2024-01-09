@@ -8,9 +8,7 @@ trigger:
 
 # The agent pool name, if you are using Udacity Cloud lab. 
 # Otherwise, comment out the line below. 
-pool:
-  name: Default
-  
+pool: AgentPool
 
 variables:
   python.version: '3.8.10'
