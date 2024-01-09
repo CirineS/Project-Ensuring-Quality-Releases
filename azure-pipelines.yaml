@@ -136,7 +136,7 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: DeployApi
-    pool: AgentPool      
+    pool: Default      
     environment: 'test'
     strategy:
       runOnce:
@@ -291,7 +291,7 @@ stages:
 #  jobs:
 #  - job: Destroy 
 #    displayName: Terraform Destroy
-#    pool: AgentPool
+#    pool: Default
 #    steps:
 #    - task: TerraformInstaller@0
 #      displayName: 'Terrafom installation'
