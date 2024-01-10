@@ -1,6 +1,7 @@
 # Ensuring Quality Releases - Project
 
-This project focuses on leveraging industry-leading tools, particularly Microsoft Azure, to establish a robust pipeline for creating disposable test environments, running automated tests effortlessly, and ensuring the quality of software releases.
+
+The primary objective of this project is to harness industry-leading tools, specifically Microsoft Azure, to construct a resilient pipeline. This pipeline is designed to create temporary test environments, seamlessly execute automated tests, and guarantee the quality of software releases.
 
 ## Overview
 
@@ -74,13 +75,13 @@ To provide the image for the VM, we will create with Terraform, there must be im
     }
 ```
 
-Once the variables have been provided, the image for the VM will be then created with running 
+Once the variables have been modified, the image for the VM will be then created by running 
 ```cmd
 packer build ./packer-image.json
 ```
 
 If you want to retrieve the information from that image after the creation again, you can run 
-*get_imageid.sh* at terraform/environments/test/. Make sure to update the credentials inside of the file:
+*get_imageid.sh* at terraform/environments/test/. Make sure to update the credentials inside the file:
 
 ```bash
 subscription_id="..."
@@ -95,7 +96,7 @@ image_name="packer-image"
 Firstly, execute the `configure-tfstate-storage-account.sh` script:
 
 ```bash
-bash configure-tfstate-storage-account.sh
+./configure-tfstate-storage-account.sh
 ```
 Be aware that this creates the tf storage specified in the file as
 ```bash
